@@ -3,6 +3,8 @@
     "MONGO_USER": "JakeDev",
     "MONGO_PASSWORD": "6nxpwiQgVg4rhZu0",
     "MONGO_DB": "jwt-auth",
-    "JWT_SECRET": "supersecretpassword"
+    "JWT_ACCESS_SECRET": "supersecretpassword",
+    "JWT_REFRESH_SECRET": "anothersupersecret",
+    "REFRESH_COOKIE_NAME": "jid"
   }
 }

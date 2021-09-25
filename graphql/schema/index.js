@@ -12,8 +12,10 @@ const typeDefs = gql`
 
   type Query {
     hello: String!
+    bye: String!
     anotherHello: String!
     users: [User!]!
+    refreshToken: LoginResponse!
   }
 
   type Mutation {

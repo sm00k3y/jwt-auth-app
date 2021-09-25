@@ -1,10 +1,18 @@
 const mongoose = require("mongoose");
-
-const { ApolloServer, gql } = require("apollo-server");
+const express = require("express");
+const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./graphql/schema/index");
 const resolvers = require("./graphql/resolvers/index");
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const isAuth = require("./middleware/isAuth");
+
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req, res }) => {
+    return { req, res, auth: isAuth(req) };
+  },
+});
 
 mongoose
   .connect(
@@ -23,20 +31,3 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
-// MongoClient.connect(uri, {}, (err, client) => {
-//   if (err) console.log("Cannot connect to the database");
-
-//   const db = client.db("jwt-auth");
-
-//   db.collection("users").insertOne(
-//     {
-//       name: "Jon",
-//       age: 24,
-//     },
-//     (err, res) => {
-//       if (err) console.log("ERROR ADDING USER TO DB");
-//       console.log("Adding user successfull");
-//     }
-//   );
-// });
