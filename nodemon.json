@@ -1,0 +1,8 @@
+{
+  "env": {
+    "MONGO_USER": "JakeDev",
+    "MONGO_PASSWORD": "6nxpwiQgVg4rhZu0",
+    "MONGO_DB": "jwt-auth",
+    "JWT_SECRET": "supersecretpassword"
+  }
+}
