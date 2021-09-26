@@ -56,6 +56,10 @@ module.exports = {
         throw new Error("No user found for this token!");
       }
 
+      if (dbUser.tokenVersion !== validRefresh.tokenVersion) {
+        throw new Error("Token version invalid!");
+      }
+
       const newAccessToken = auth.createAccessToken(dbUser);
       const newRefreshToken = auth.createRefreshToken(dbUser);
       auth.setRefreshToken(res, newRefreshToken);
@@ -66,7 +70,6 @@ module.exports = {
   Mutation: {
     register: async (_, { email, password }) => {
       const userFromDB = await UserModel.findOne({ email: email });
-      console.log(userFromDB);
       if (userFromDB) {
         const errMsg = "USER with this email ALREADY EXITS";
         throw new Error(errMsg);
@@ -105,6 +108,20 @@ module.exports = {
       const refreshToken = auth.createRefreshToken(dbUser);
       auth.setRefreshToken(res, refreshToken);
       return { accessToken: accessToken };
+    },
+
+    revokeRefreshToken: async (_, { userId }) => {
+      try {
+        await UserModel.findOneAndUpdate(
+          { _id: userId },
+          { $inc: { tokenVersion: 1 } }
+        );
+      } catch (err) {
+        throw new Error(
+          "Error updating user token version - no user found for this ID"
+        );
+      }
+      return true;
     },
   },
 };
