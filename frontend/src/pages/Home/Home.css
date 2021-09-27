@@ -1,0 +1,50 @@
+.users-container {
+  display: flex;
+  flex-flow: column;
+  width: 70%;
+  margin: 0 15%;
+  /* border: 1px solid black; */
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.users-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1rem;
+}
+
+.users-list {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.users-item {
+  margin-bottom: 0.8rem;
+  width: 80%;
+  padding: 0.2rem;
+  list-style: none;
+  border: 1px solid purple;
+  border-radius: 1rem;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.user-item-email {
+  font-weight: bold;
+  margin: 0.5rem;
+}
+
+.user-item-id {
+  margin-bottom: 0.5rem;
+  font-size: 0.8em;
+}

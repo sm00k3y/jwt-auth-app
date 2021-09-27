@@ -72,7 +72,7 @@ module.exports = {
       const userFromDB = await UserModel.findOne({ email: email });
       if (userFromDB) {
         const errMsg = "USER with this email ALREADY EXITS";
-        throw new Error(errMsg);
+        return { userExists: true };
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
@@ -86,7 +86,7 @@ module.exports = {
           throw new Error("Error saving user to the database");
         }
       });
-      return "OK";
+      return { userExists: false };
     },
 
     login: async (_, { email, password }, { req, res }) => {

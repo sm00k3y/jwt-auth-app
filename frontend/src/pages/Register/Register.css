@@ -1,0 +1,32 @@
+.page-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  display: flex;
+  flex-flow: column;
+  width: 40%;
+  border: 1px solid purple;
+  border-radius: 25px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.form-title {
+  align-self: center;
+  margin-bottom: 1rem;
+  font-size: 1.7em;
+  font-weight: bold;
+}
+
+.form-field {
+  width: 95.5%;
+  margin: 0.5rem;
+}
+
+.form-button {
+  width: 50%;
+  align-self: flex-end;
+  margin-top: 0.25rem;
+}

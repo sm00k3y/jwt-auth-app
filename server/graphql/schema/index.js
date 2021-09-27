@@ -5,6 +5,10 @@ const typeDefs = gql`
     accessToken: String!
   }
 
+  type RegisterResponse {
+    userExists: Boolean!
+  }
+
   type User {
     _id: ID!
     email: String!
@@ -19,7 +23,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    register(email: String!, password: String!): String!
+    register(email: String!, password: String!): RegisterResponse!
     login(email: String!, password: String!): LoginResponse!
     revokeRefreshToken(userId: ID!): Boolean!
   }
