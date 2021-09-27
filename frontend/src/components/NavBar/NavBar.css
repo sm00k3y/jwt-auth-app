@@ -1,0 +1,13 @@
+.navbar-container {
+  display: flex;
+  flex-flow: row;
+  border: 5px solid purple;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.navbar-elem {
+  font-size: large;
+  margin: 1rem;
+}
