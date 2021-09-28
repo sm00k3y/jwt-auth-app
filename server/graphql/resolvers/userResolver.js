@@ -94,13 +94,15 @@ module.exports = {
       let msg;
       if (!dbUser) {
         msg = "User Not found!";
-        throw new Error(msg);
+        return { accessToken: "" };
+        // throw new Error(msg);
       }
 
       const passCheck = await bcrypt.compare(password, dbUser.password);
       if (!passCheck) {
         msg = "Wrong password!";
-        throw new Error(msg);
+        return { accessToken: "" };
+        // throw new Error(msg);
       }
 
       // Successful Login

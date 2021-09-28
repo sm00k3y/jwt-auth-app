@@ -3,10 +3,10 @@ import "../Auth.css";
 import { gql, useMutation } from "@apollo/client";
 import { AtomSpinner } from "../../components/Spinner/Spinner";
 
-const RegisterPage = ({ history }) => {
+const LoginPage = ({ history }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [registerUser, { loading }] = useMutation(REGISTER_QUERY);
+  const [login, { loading }] = useMutation(LOGIN_QUERY);
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -18,23 +18,25 @@ const RegisterPage = ({ history }) => {
     console.log(email, password);
     let result;
     try {
-      result = await registerUser({
-        variables: { registerEmail: email, registerPassword: password },
+      result = await login({
+        variables: { loginEmail: email, loginPassword: password },
       });
     } catch (err) {
       console.log(err);
-      alert("Error adding New User, try again later");
+      alert("Error logging in, try again later");
       return;
     }
     if (!result) {
-      alert("Error adding New User, try again later");
+      alert("Error logging in, try again later");
       return;
     }
-    if (result.data.register.userExists === true) {
-      alert("User with this email already exists");
+    console.log(result);
+    if (result.data.login.accessToken === "") {
+      alert("Wrong email and password");
       return;
     }
-    history.push("/");
+    // Successful login - get access token
+    // history.push("/");
   };
 
   if (loading) return <AtomSpinner />;
@@ -42,7 +44,7 @@ const RegisterPage = ({ history }) => {
   return (
     <div className="page-container">
       <form onSubmit={(e) => submitForm(e)} className="form-container">
-        <div className="form-title">Register new User</div>
+        <div className="form-title">Log In</div>
         <input
           type="email"
           value={email}
@@ -62,19 +64,19 @@ const RegisterPage = ({ history }) => {
           }}
         />
         <button type="submit" className="form-button">
-          Register
+          Login
         </button>
       </form>
     </div>
   );
 };
 
-const REGISTER_QUERY = gql`
-  mutation Mutation($registerEmail: String!, $registerPassword: String!) {
-    register(email: $registerEmail, password: $registerPassword) {
-      userExists
+const LOGIN_QUERY = gql`
+  mutation Mutation($loginEmail: String!, $loginPassword: String!) {
+    login(email: $loginEmail, password: $loginPassword) {
+      accessToken
     }
   }
 `;
 
-export default RegisterPage;
+export default LoginPage;
