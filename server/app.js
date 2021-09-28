@@ -13,6 +13,10 @@ const apolloServer = new ApolloServer({
     return { req, res, auth: isAuth(req) };
   },
   cors: { origin: "http://localhost:3000", credentials: true },
+  // cors: {
+  //   origin: "https://studio.apollographql.com",
+  //   credentials: true,
+  // },
 });
 
 mongoose
