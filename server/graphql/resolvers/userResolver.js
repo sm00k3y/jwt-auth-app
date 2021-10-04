@@ -26,7 +26,9 @@ module.exports = {
     },
     refreshToken: async (_, __, { req, res }) => {
       if (!req.headers.cookie) {
-        throw new Error("Refresh Token not found in the cookies");
+        console.log("No token in cookies found....");
+        return { accessToken: "" };
+        // throw new Error("Refresh Token not found in the cookies");
       }
       console.log(process.env.REFRESH_COOKIE_NAME);
 
@@ -42,14 +44,16 @@ module.exports = {
       try {
         validRefresh = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
       } catch (err) {
-        throw new Error("Error Validating the token...");
+        console.log("Error validating the token");
+        return { accessToken: "" };
+        // throw new Error("Error Validating the token...");
       }
 
       if (!validRefresh) {
         throw new Error("Empty Token");
       }
 
-      const dbUser = await UserModel.findOne({ id: validRefresh.userId });
+      const dbUser = await UserModel.findOne({ _id: validRefresh.userId });
 
       // this is not possible but we'll check anyways
       if (!dbUser) {
@@ -57,7 +61,9 @@ module.exports = {
       }
 
       if (dbUser.tokenVersion !== validRefresh.tokenVersion) {
-        throw new Error("Token version invalid!");
+        console.log("Wrong token version");
+        return { accessToken: "" };
+        // throw new Error("Token version invalid!");
       }
 
       const newAccessToken = auth.createAccessToken(dbUser);
@@ -89,7 +95,7 @@ module.exports = {
       return { userExists: false };
     },
 
-    login: async (_, { email, password }, { req, res }) => {
+    login: async (_, { email, password }, { res }) => {
       const dbUser = await UserModel.findOne({ email: email });
       let msg;
       if (!dbUser) {

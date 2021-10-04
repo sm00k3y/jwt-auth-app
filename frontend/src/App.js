@@ -1,26 +1,37 @@
+import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar";
-import Bye from "./pages/Bye/Bye";
-import HomePage from "./pages/Home/Home";
-import LoginPage from "./pages/Login/Login";
-import RegisterPage from "./pages/Register/Register";
-import { AuthProvider } from "./context/authContext";
+import { AtomSpinner } from "./components/Spinner/Spinner";
+import { useAccessTokenContext } from "./context/authContext";
+import Router from "./Router";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <AuthProvider>
-        <NavBar />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/bye" component={Bye} />
-        </Switch>
-      </AuthProvider>
-    </BrowserRouter>
-  );
+  const { accessToken, setAccessToken } = useAccessTokenContext();
+  const { data, loading, error } = useQuery(REFRESH_QUERY);
+
+  React.useEffect(() => {
+    console.log(data);
+    if (data) {
+      setAccessToken(data.refreshToken.accessToken);
+      console.log(accessToken);
+    }
+  }, [data]);
+
+  if (loading) return <AtomSpinner />;
+
+  if (error) {
+    console.log(error);
+    return <div>ERROR</div>;
+  }
+
+  return <Router />;
 }
+
+const REFRESH_QUERY = gql`
+  query RefreshQuery {
+    refreshToken {
+      accessToken
+    }
+  }
+`;
 
 export default App;

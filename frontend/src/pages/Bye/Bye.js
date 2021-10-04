@@ -5,12 +5,14 @@ import { useAccessTokenContext } from "../../context/authContext";
 
 const Bye = () => {
   const { accessToken } = useAccessTokenContext();
+  // const { data, loading, error } = useQuery(BYE_QUERY);
   const { data, loading, error, refetch } = useQuery(BYE_QUERY, {
     context: { headers: { Authorization: `bearer ${accessToken}` } },
   });
   React.useEffect(() => {
     refetch();
-  }, [refetch]);
+    console.log("refetching");
+  }, [data]);
 
   if (loading) return <AtomSpinner />;
   if (error) return <div>Error</div>;
