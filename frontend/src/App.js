@@ -1,18 +1,16 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { AtomSpinner } from "./components/Spinner/Spinner";
-import { useAccessTokenContext } from "./context/authContext";
 import Router from "./Router";
+import { setAccessToken, getAccessToken } from "./context/accessToken";
 
 function App() {
-  const { accessToken, setAccessToken } = useAccessTokenContext();
   const { data, loading, error } = useQuery(REFRESH_QUERY);
 
   React.useEffect(() => {
-    console.log(data);
     if (data) {
       setAccessToken(data.refreshToken.accessToken);
-      console.log(accessToken);
+      console.log("New access token:", getAccessToken());
     }
   }, [data]);
 

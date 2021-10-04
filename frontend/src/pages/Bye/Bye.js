@@ -1,18 +1,12 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { AtomSpinner } from "../../components/Spinner/Spinner";
-import { useAccessTokenContext } from "../../context/authContext";
+import { getAccessToken } from "../../context/accessToken";
 
 const Bye = () => {
-  const { accessToken } = useAccessTokenContext();
-  // const { data, loading, error } = useQuery(BYE_QUERY);
-  const { data, loading, error, refetch } = useQuery(BYE_QUERY, {
-    context: { headers: { Authorization: `bearer ${accessToken}` } },
+  const { data, loading, error } = useQuery(BYE_QUERY, {
+    fetchPolicy: "network-only",
   });
-  React.useEffect(() => {
-    refetch();
-    console.log("refetching");
-  }, [data]);
 
   if (loading) return <AtomSpinner />;
   if (error) return <div>Error</div>;
@@ -20,11 +14,8 @@ const Bye = () => {
   return (
     <div>
       <div>{data.bye}</div>
-      <div>{accessToken}</div>
-      {/* <div>
-        <button onClick={() => setAccessToken("Yo")}>Click me</button>
-        <button onClick={() => refetch()}>Refetch!</button>
-      </div> */}
+      <br />
+      <div>{getAccessToken()}</div>
     </div>
   );
 };

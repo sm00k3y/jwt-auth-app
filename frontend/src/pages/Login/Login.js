@@ -2,13 +2,12 @@ import React from "react";
 import "../Auth.css";
 import { gql, useMutation } from "@apollo/client";
 import { AtomSpinner } from "../../components/Spinner/Spinner";
-import { useAccessTokenContext } from "../../context/authContext";
+import { setAccessToken } from "../../context/accessToken";
 
 const LoginPage = ({ history }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [login, { loading }] = useMutation(LOGIN_QUERY);
-  const { setAccessToken } = useAccessTokenContext();
 
   const submitForm = async (event) => {
     event.preventDefault();
