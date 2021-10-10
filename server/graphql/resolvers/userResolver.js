@@ -10,7 +10,7 @@ module.exports = {
       if (!auth.userId) {
         return "NOT AUTHENTICATED";
       } else {
-        return `BYEE :) id: ${auth.userId}`;
+        return `BYEE :) id: ${auth.userId} email: ${auth.userEmail}`;
       }
     },
     users: async () => {
